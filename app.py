@@ -20,18 +20,23 @@ def show_tables():
 
     if os.getenv('VIRTUAL_ENV'):
         print('Using Virtualenv')
-    else:
-        print('Not using Virtualenv')
-    
-    data = {'grant_type': 'password', 
+        data = {'grant_type': 'password', 
         'client_id': 'mcxxb09790ab6c4b41c99d56a29a55142bbb', 
         'client_secret': 'caf59c1728ec47f2aceeed68d61f81c8', 
         'username': 'r6-vkaul', 
         'password': 'Tutakhamen@1234'}
+    else:
+        print('Not using Virtualenv')
+        data = {'grant_type': 'password', 
+        'client_id': os.environ['client_id'], 
+        'client_secret': os.environ['client_secret'], 
+        'username': os.environ['username'], 
+        'password': os.environ['password']}
+    
     result = requests.post('https://api.socialstudio.radian6.com/oauth/token', data=data)   
     load = json.loads(result.content)
     key = load['access_token']
-    print (key)
+    print ('LOGIN SUCCESS: ' + key)
 
     #create a midnight timestamp based on today's date:
     midnight = datetime.combine(date.today(), time.min)
