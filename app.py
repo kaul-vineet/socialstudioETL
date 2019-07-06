@@ -70,9 +70,9 @@ def show_tables():
         MEDIA_PROVIDER.append(data['mediaProvider']['title']),
         PUBLISH_DATE.append(data['publishedDate']),
         CLASSIFICATION.append(data['classification'])
-    
+        
     df = pd.DataFrame([ARTICLE_ID,HEADLINE,AUTHOR,CONTENT,
-                   MEDIA_PROVIDER,PUBLISH_DATE,CLASSIFICATION]).T
+                       MEDIA_PROVIDER,PUBLISH_DATE,CLASSIFICATION]).T
 
     #Below code will produce a timestamp of when the API data was requested
     #utc = arrow.utcnow()
@@ -83,6 +83,8 @@ def show_tables():
     df1= df.rename(columns={0: 'CASE_ID', 1: 'HEADLINE',
                             2: 'AUTHOR',3: 'CONTENT',4: 'MEDIA_PROVIDER',
                             5: 'PUBLISH_DATE', 6: 'CLASSIFICATION'})
+    df1.sort_values(by=['PUBLISH_DATE'], inplace=True, ascending=False)
+    df1 = df1[df1.MEDIA_PROVIDER != 'TWITTER'].head(8)
     
     return render_template('view.html',tables=[df1.to_html(classes='female')],
     titles = ['na', 'SOCIAL CASES'])
