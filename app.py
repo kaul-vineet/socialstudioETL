@@ -25,6 +25,7 @@ def show_tables():
         'client_secret': 'caf59c1728ec47f2aceeed68d61f81c8', 
         'username': 'r6-vkaul', 
         'password': 'Tutakhamen@1234'}
+        topic_profile = 1340413
     else:
         print('Not using Virtualenv')
         data = {'grant_type': 'password', 
@@ -32,7 +33,8 @@ def show_tables():
         'client_secret': os.environ['client_secret'], 
         'username': os.environ['username'], 
         'password': os.environ['password']}
-    
+        topic_profile = os.environ['topic_profile']
+        
     result = requests.post('https://api.socialstudio.radian6.com/oauth/token', data=data)   
     load = json.loads(result.content)
     key = load['access_token']
@@ -62,7 +64,7 @@ def show_tables():
     headers = {"access_token": key}
     #we integrated the python variable strings startDate and endDate into the http query string below to query data 
     #from the previous dat in an automated fashion
-    url = 'https://api.socialstudio.radian6.com/v3/posts?topics=1340413&\
+    url = 'https://api.socialstudio.radian6.com/v3/posts?topics=' + str(topic_profile) + '&\
     startDate=' + startDate + '&endDate=' + endDate + '&limit=1000'
     #as you can see, the http query string below has epoch milliseconds as a startDate and endDate
     #url = 'https://api.socialstudio.radian6.com/v3/posts?topics=1135449&startDate=1506927600000&endDate=1507013940000&limit=1000'
