@@ -7,14 +7,22 @@ import pandas as pd
 from time import time, mktime
 from datetime import datetime, date, timedelta, time
 import arrow
+import os
 
 app=Flask(__name__)
 
 @app.route("/")
 
+
 def show_tables():
 
     pd.set_option('display.max_colwidth', -1)
+
+    if os.getenv('VIRTUAL_ENV'):
+        print('Using Virtualenv')
+    else:
+        print('Not using Virtualenv')
+    
     data = {'grant_type': 'password', 
         'client_id': 'mcxxb09790ab6c4b41c99d56a29a55142bbb', 
         'client_secret': 'caf59c1728ec47f2aceeed68d61f81c8', 
