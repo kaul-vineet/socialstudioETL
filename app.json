@@ -1,7 +1,7 @@
 {
   "name": "SalaryEstimation",
   "description": "App for estimating salary",
-  "repository": "https://github.com/kaul-vineet/SalaryEstimation",
+  "repository": "https://github.com/kaul-vineet/socialstudioETL",
   "logo": "https://github.com/kaul-vineet/SalaryEstimation/blob/master/files/logo.jpg",
   "keywords": ["python"]
 }
