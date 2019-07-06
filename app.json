@@ -1,6 +1,6 @@
 {
-  "name": "SalaryEstimation",
-  "description": "App for estimating salary",
+  "name": "Social Studio ETL",
+  "description": "# This app gets posts from Social Studio Topic Profile and displays them in tabular structure.",
   "repository": "https://github.com/kaul-vineet/socialstudioETL",
   "logo": "https://github.com/kaul-vineet/SalaryEstimation/blob/master/files/logo.jpg",
   "keywords": ["python"]
