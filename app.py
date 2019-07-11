@@ -13,9 +13,7 @@ app=Flask(__name__)
 
 @app.route("/")
 
-
-def show_tables():
-
+def create_dataframe():
     pd.set_option('display.max_colwidth', -1)
 
     if os.getenv('VIRTUAL_ENV'):
@@ -93,7 +91,7 @@ def show_tables():
     #utc = arrow.utcnow()
     #df['PullTime'] = utc.to('US/Pacific')
 
-
+def show_tables():
     #Below renames the columns
     df1= df.rename(columns={0: 'CASE_ID', 1: 'HEADLINE',
                             2: 'AUTHOR',3: 'CONTENT',4: 'MEDIA_PROVIDER',
