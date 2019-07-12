@@ -9,12 +9,10 @@ from datetime import datetime, date, timedelta, time
 import arrow
 import os
 
+
 app=Flask(__name__)
 
-@app.route("/")
-
-def show_tables():
-
+def create_dataset():
     pd.set_option('display.max_colwidth', -1)
 
     if os.getenv('VIRTUAL_ENV'):
@@ -84,10 +82,15 @@ def show_tables():
         MEDIA_PROVIDER.append(data['mediaProvider']['title']),
         PUBLISH_DATE.append(data['publishedDate']),
         CLASSIFICATION.append(data['classification'])
-        
+
+    global df
     df = pd.DataFrame([ARTICLE_ID,HEADLINE,AUTHOR,CONTENT,
                        MEDIA_PROVIDER,PUBLISH_DATE,CLASSIFICATION]).T
 
+@app.route("/")
+def show_tables():
+    create_dataset()
+    
     #Below code will produce a timestamp of when the API data was requested
     #utc = arrow.utcnow()
     #df['PullTime'] = utc.to('US/Pacific')
