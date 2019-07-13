@@ -39,7 +39,7 @@ def create_dataset():
     #create a time stamp value for yesterday at 00:00:00 hours:
     yesterday_midnight = midnight - timedelta(days=1)
     #create a time stamp value for yesterday at 23:59:00 hours, before midnight hits:
-    yesterday_beforemidnight = midnight - timedelta(minutes=15)
+    yesterday_beforemidnight = midnight - timedelta(minutes=10)
 
     #below variable converts 'yesterday_midnight' into unix time
     sec_since_epochy = mktime(yesterday_midnight.timetuple()) + yesterday_midnight.microsecond/1000000.0

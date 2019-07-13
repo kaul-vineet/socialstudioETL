@@ -16,25 +16,32 @@ def index():
 
 @app.route("/viz-data")
 def viz_data():
-    df = datacon.create_dataset()
+    print ('LOADING DATA - RESET')
     
+    df = datacon.create_dataset()
     #Below renames the columns
     df1= df.rename(columns={0: 'CASE_ID', 1: 'HEADLINE',
                             2: 'AUTHOR',3: 'CONTENT',4: 'MEDIA_PROVIDER',
                             5: 'PUBLISH_DATE', 6: 'CLASSIFICATION'})
     df1.sort_values(by=['PUBLISH_DATE'], inplace=True, ascending=False)
-    TIME, MEDIA_PROVIDER, POST_FREQUENCY = [],[],[]
+    TIME, MEDIA_PROVIDER, CUMMULATIVE_FREQUENCY = [],[],[]
     TIME = df1['PUBLISH_DATE']
     MEDIA_PROVIDER = df1['MEDIA_PROVIDER']
     df_timeseries = pd.DataFrame([TIME,MEDIA_PROVIDER]).T
     df_timeseries['PUBLISH_DATE'] = pd.to_datetime(df_timeseries['PUBLISH_DATE'])
     df_timeseries['PUBLISH_DATE'] = df_timeseries['PUBLISH_DATE'].values.astype('<M8[m]')
+    df_timeseries.sort_values(by=['PUBLISH_DATE'], inplace=True, ascending=False)
     df_timeseries = df_timeseries.groupby(['PUBLISH_DATE','MEDIA_PROVIDER'])['MEDIA_PROVIDER'].count()
+
     df_timeseries = df_timeseries.unstack().fillna(value=0)
-    print(df_timeseries.head(100))
+    df_timeseries.sort_index(inplace=True, ascending=False)
+    
+    #Cumulative dataset
+    df_timeseriescum = df_timeseries.cumsum()
+    
     def generate_random_data():
         for index, row in df_timeseries.iterrows():
-            json_data = json.dumps({'time': index.strftime('%H:%M:%S'), 'value': row['TWITTER']})
+            json_data = json.dumps({'time': index.strftime('%H:%M:%S'), 'value1': str(row['TWITTER']), 'value2': str(df_timeseriescum.loc[index, 'TWITTER'])})
             #print(row['TWITTER'])
             #{'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'value': random.random() * 100}
             #data:{"time": "2019-07-13 00:31:44", "value": 74.03604913808967}
@@ -50,7 +57,6 @@ def show_tables():
                             2: 'AUTHOR',3: 'CONTENT',4: 'MEDIA_PROVIDER',
                             5: 'PUBLISH_DATE', 6: 'CLASSIFICATION'})
     df1.sort_values(by=['PUBLISH_DATE'], inplace=True, ascending=False)
-    print(df1.unstack().fillna(value=0).head())
     #Below code will produce a timestamp of when the API data was requested
     #utc = arrow.utcnow()
     #df['PullTime'] = utc.to('US/Pacific')

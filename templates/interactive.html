@@ -31,10 +31,20 @@
             data: {
                 labels: [],
                 datasets: [{
-                    label: "Random Dataset",
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    label: "Post Count",
+                    backgroundColor: 'rgb(25, 0, 90)',
+                    borderColor: 'rgb(25, 100, 130)',
+                    yAxisID: 'y-axis-1',
                     data: [],
+                    fill: false,
+                },
+                {
+                    label: "Post Cumulative Count",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 0, 13)',
+                    yAxisID: 'y-axis-2',
+                    data: [],
+                    type: 'line',
                     fill: false,
                 }],
             },
@@ -61,26 +71,39 @@
                         }
                     }],
                     yAxes: [{
-                        display: true,
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Value'
-                        }
-                    }]
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							position: 'left',
+							id: 'y-axis-1',
+						}, {
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							position: 'right',
+							id: 'y-axis-2',
+							gridLines: {
+								drawOnChartArea: false
+							}
+						}]
                 }
             }
         };
+
         const context = document.getElementById('canvas').getContext('2d');
+
         const lineChart = new Chart(context, config);
+
         const source = new EventSource("/viz-data");
+
         source.onmessage = function (event) {
             const data = JSON.parse(event.data);
-            if (config.data.labels.length === 20) {
+            if (config.data.labels.length === 10) {
                 config.data.labels.shift();
                 config.data.datasets[0].data.shift();
+                config.data.datasets[1].data.shift();
             }
             config.data.labels.push(data.time);
-            config.data.datasets[0].data.push(data.value);
+            config.data.datasets[0].data.push(data.value1);
+            config.data.datasets[1].data.push(data.value2);
             lineChart.update();
         }
     });
