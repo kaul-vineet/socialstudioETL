@@ -11,8 +11,12 @@ import time as time
 app=Flask(__name__)
 
 @app.route('/viz')
-def index():
+def vizualization():
     return render_template('interactive.html')
+
+@app.route("/")
+def index():
+    return render_template('menu.html')
 
 @app.route("/viz-data")
 def viz_data():
@@ -49,7 +53,7 @@ def viz_data():
             time.sleep(4)
     return Response(generate_random_data(), mimetype='text/event-stream')
 
-@app.route("/")
+@app.route("/table")
 def show_tables():
     df = datacon.create_dataset()
     #Below renames the columns
