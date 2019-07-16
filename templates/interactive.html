@@ -52,7 +52,7 @@
                 responsive: true,
                 title: {
                     display: true,
-                    text: 'Creating Real-Time Charts with Flask'
+                    text: 'REAL-TIME DATA TRACKING FOR SOCIAL STUDIO TOPIC PROFILES'
                 },
                 tooltips: {
                     mode: 'index',
@@ -71,13 +71,19 @@
                         }
                     }],
                     yAxes: [{
-							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-							display: true,
+							type: 'linear',
+							scaleLabel: {
+								display: true,
+								labelString: 'COUNT'
+                        	},
 							position: 'left',
 							id: 'y-axis-1',
 						}, {
-							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-							display: true,
+							type: 'linear',
+							scaleLabel: {
+								display: true,
+								labelString: 'CUMULATIVE COUNT'
+                        	},
 							position: 'right',
 							id: 'y-axis-2',
 							gridLines: {
